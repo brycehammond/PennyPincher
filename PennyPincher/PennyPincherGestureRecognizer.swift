@@ -12,7 +12,35 @@ public class PennyPincherGestureRecognizer: UIGestureRecognizer {
     private(set) var points = [CGPoint]()
     private(set) var timer: Timer?
     
-    public override func reset() {
+    init(contentsOfFile: String, target: Any?, action: Selector?) {
+        super.init(target: target, action: action)
+        let dictionary = NSDictionary(contentsOfFile: contentsOfFile)
+        if let configDictionary = dictionary as? [String : Any] {
+            if let multipleStrokes = configDictionary["enableMultipleStrokes"] as? Bool {
+                enableMultipleStrokes = multipleStrokes
+            }
+            
+            if let timeBetweenMultipleStrokes = configDictionary["allowedTimeBetweenMultipleStrokes"] as? TimeInterval {
+                allowedTimeBetweenMultipleStrokes = timeBetweenMultipleStrokes
+            }
+        
+            if let templateConfigs = configDictionary["templates"] as? [[String : Any]] {
+                templates = templateConfigs.map { PennyPincherTemplate(dictionary: $0) }
+            }
+        }
+        
+    }
+    
+    open func saveTo(_ path: String) {
+        let configDictionary : [String : Any] = ["enableMultipleStrokes" : enableMultipleStrokes,
+                                "allowedTimeBetweenMultipleStrokes" : allowedTimeBetweenMultipleStrokes,
+                                "templates" : templates.map { $0.dictionary }]
+        if let dictionary = configDictionary as NSDictionary? {
+            dictionary.write(toFile: path, atomically: true)
+        }
+    }
+    
+    open override func reset() {
         super.reset()
        
         invalidateTimer()
