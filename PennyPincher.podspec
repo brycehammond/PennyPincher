@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
 
   s.author       = "fe9lix"
   s.platform     = :ios
-  s.platform     = :ios, "8.0"
+  s.platform     = :ios, "9.0"
   s.source       = { :git => "https://github.com/brycehammond/PennyPincher.gi", :tag => "#{s.version}" }
   s.source_files  = "PennyPincher"
 

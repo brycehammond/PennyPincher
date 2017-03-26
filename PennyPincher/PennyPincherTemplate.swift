@@ -4,12 +4,12 @@ public struct PennyPincherTemplate {
     public let id: String
     public let points: [CGPoint]
     
-    init(id: String, points: [CGPoint]) {
+    public init(id: String, points: [CGPoint]) {
         self.id = id
         self.points = points
     }
     
-    init(dictionary: [String: Any]) {
+    public init(dictionary: [String: Any]) {
         if let identifier = dictionary["id"] as? String {
             self.id = identifier
         } else {
@@ -23,7 +23,7 @@ public struct PennyPincherTemplate {
         }
     }
     
-    var dictionary : [String : Any] {
+    public var dictionary : [String : Any] {
         get {
             return [ "id" : id,
                      "points" : points ]
